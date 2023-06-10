@@ -15,7 +15,17 @@ print(count_missing_values)
 
 # Replace all the NA values with the average of the column value
 
-m2<-na.omit(m1)
-col_mea<-colMeans(m2)
-print(col_mea)
-m1[is.na(m1)]<-col_mea
+for (i in 1:ncol(dataset)) {
+  dataset[is.na(dataset[, i]), i] <- mean(dataset[, i], na.rm = TRUE)
+}
+
+# Print the dataset
+print(dataset)
+
+# Find the Pearson correlation among all the columns and plot heat map
+
+library(plotly)
+fig <- plot_ly(data.frame(correlation), x=100, y=30, z=correlation, type="heatmap")
+fig <- fig %>% layout(title="Correlation Heatmap")
+fig
+
